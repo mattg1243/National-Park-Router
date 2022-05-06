@@ -6,19 +6,21 @@
 
 using namespace std;
 
+// utility function prototypes 
+void printParkList();
 class Navigator {
   private:
   // a vector that holds all of the park objects
   const std::vector<Park> parkVec = {
-    Park(0, "Yosemite"),
-    Park(1, "Death Valley"),
-    Park(2, "Joshua Tree"),
-    Park(3, "Channel Islands"),
-    Park(4, "Redwoowds"),
-    Park(5, "Point Reyes"),
-    Park(6, "Sequoias"),
-    Park(7, "Lassen"),
-    Park(8, "Pinnacles"),
+    Park(0, "Yosemite", map[0]),
+    Park(1, "Death Valley", map[1]),
+    Park(2, "Joshua Tree", map[2]),
+    Park(3, "Channel Islands", map[3]),
+    Park(4, "Redwoowds", map[4]),
+    Park(5, "Point Reyes", map[5]),
+    Park(6, "Sequoias", map[6]),
+    Park(7, "Lassen", map[7]),
+    Park(8, "Pinnacles", map[8])
   };
   // the adjacency matrix of distances between parks
   const int* adjMatrix = *map;
@@ -52,8 +54,14 @@ int Navigator::navigateDFS(int startKey) {
   // as long as there is another permutation
   // or possible route from starting point
   do {
+    // current path accumulator
+    int currentPath = 0;
+    // compute the current path length with depth first traversal
+    for (int i = 0; i < destinations.size(); i++) {
 
-   // compute the current path length
+
+
+    }
 
   } while (std::next_permutation(destinations.begin(), destinations.end()));
 
@@ -64,14 +72,7 @@ void Navigator::startCLI() {
 
   cout << "Welcome to the California National Park Road Trip Router!\n";
   cout << "Please enter a number that corresponds with the park you would like to start at or 0 to exit:\n";
-  cout << "\t1. Yosemite\n";
-  cout << "\t2. Death Valley\n";
-  cout << "\t3. Joshua Tree\n";
-  cout << "\t4. Channel Island\n";
-  cout << "\t5. Redwoods\n";
-  cout << "\t6. Point Reyes\n";
-  cout << "\t7. Lassen\n";
-  cout << "\t8. Pinnacles\n";
+  printParkList();
 
   string choice; 
   getline(cin, choice);
@@ -83,18 +84,26 @@ void Navigator::startCLI() {
     cout << "thinking...\n\n";
 
     cout << "That was fun! Give it another try with a new starting point if you'd like or enter 0 to exit:\n";
-    cout << "\t1. Yosemite\n";
-    cout << "\t2. Death Valley\n";
-    cout << "\t3. Joshua Tree\n";
-    cout << "\t4. Channel Island\n";
-    cout << "\t5. Redwoods\n";
-    cout << "\t6. Point Reyes\n";
-    cout << "\t7. Lassen\n";
-    cout << "\t8. Pinnacles\n";
+    printParkList();
 
     getline(cin, choice);
   }
 
   cout << "Thanks for playing!" << endl;
+
+}
+
+// utility functions called by class methods
+// prints out the list of parks and associated keys
+void printParkList() {
+
+  cout << "\t1. Yosemite\n";
+  cout << "\t2. Death Valley\n";
+  cout << "\t3. Joshua Tree\n";
+  cout << "\t4. Channel Island\n";
+  cout << "\t5. Redwoods\n";
+  cout << "\t6. Point Reyes\n";
+  cout << "\t7. Lassen\n";
+  cout << "\t8. Pinnacles\n";
 
 }

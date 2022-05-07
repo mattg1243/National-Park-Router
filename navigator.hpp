@@ -32,10 +32,6 @@ class Navigator {
   Navigator() {};
   // find the shortes path according to depth first search
   int navigateDFS(Park startPark);
-  // find the shortest path according to a "nearest neighbor approach"
-  int navigateNN(int startKey);
-  // analyze the results of the competition between the algorithms
-  void analyze();
   // start the CLI
   void startCLI();
   
@@ -45,14 +41,16 @@ int Navigator::navigateDFS(Park startPark) {
 
   // create the return variable
   int shortestPath = INT_MAX;
+  // variable that tracks how many different routes are tested
+  int numberOfIters = 0;
   // create a vector of all parks - starting park that is shuffled
   // to a new unique order after main loop finishes
   std::vector<Park> destinations;
   // a parallel vector of ints used for permutation
   // could not get that to work when comparing custom class objects
+  std::vector<int> destinationsInts;
   // one more vector storing the sequence of parks to visit
   std::vector<Park> journey;
-  std::vector<int> destinationsInts;
   for (int i = 0; i < parkVec.size(); i++) {
     if (i != startPark.key) {
       destinationsInts.push_back(i);
@@ -62,6 +60,7 @@ int Navigator::navigateDFS(Park startPark) {
   // as long as there is another permutation
   // or possible route from starting point
   do {
+    numberOfIters++;
     // current path accumulator
     int currentPath = 0;
     // the key of the last park visited
@@ -70,7 +69,6 @@ int Navigator::navigateDFS(Park startPark) {
     destinations.clear();
     for (int i = 0; i < parkVec.size(); i++) {
       int index = destinationsInts[i];
-      cout << "___INDEX___  :  " << index << endl;
       destinations.push_back(parkVec[index]);
     }
     // create a stack that holds the unique permutation of destinations
@@ -91,7 +89,7 @@ int Navigator::navigateDFS(Park startPark) {
       else {
         // add the distance from the previous park to this one
         currentPath += map[lastPark][currentPark.key];
-        // reassing last park
+        // reassign last park
         lastPark = currentPark.key;
         // add this park to visitedParks set
         visitedParks.insert(currentPark);
@@ -115,11 +113,11 @@ int Navigator::navigateDFS(Park startPark) {
 
   } while (std::next_permutation(destinationsInts.begin(), destinationsInts.end()));
 
-  cout << "\nOptimal Path:\n";
-  cout << startPark.name << endl;
-  for (int i = 0; i < journey.size(); i++) {
-    cout << journey[i].name << "\n";
+  cout << "\nOptimal Path found after testing " << numberOfIters << " different routes:\n";
+  for (int i = 0; i < journey.size() - 1; i++) {
+    cout << journey[i].name << " -> ";
   }
+  cout << journey[7].name << '\n';
 
   return shortestPath;
 }
@@ -132,12 +130,17 @@ void Navigator::startCLI() {
 
   string choice; 
   getline(cin, choice);
+  // validate user input
+  while (stoi(choice) < 1 || stoi(choice) > 8) {
+    cout << "\nInvalid input; please enter a number between 1 and 8\n";
+    getline(cin, choice);
+  } 
 
   while (choice != "0") {
-    // do the complicated stuff in here
+
     int dfsShortestPath = Navigator::navigateDFS(parkVec[stoi(choice) - 1]);
 
-    cout << "\nThe shortest path as found by DFS is " << dfsShortestPath << " miles.\n\n";
+    cout << "\nThis route is " << dfsShortestPath << " miles.\n\n";
 
     cout << "That was fun! Give it another try with a new starting point if you'd like or enter 0 to exit:\n";
     printParkList();

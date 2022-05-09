@@ -18,7 +18,7 @@ class Navigator {
     Park(1, "Death Valley"),
     Park(2, "Joshua Tree"),
     Park(3, "Channel Islands"),
-    Park(4, "Redwoowds" ),
+    Park(4, "Redwoods" ),
     Park(5, "Point Reyes"),
     Park(6, "Sequoias"),
     Park(7, "Lassen"),
@@ -56,10 +56,16 @@ int Navigator::navigateDFS(Park startPark) {
       destinationsInts.push_back(i);
     }
   }
+  // create a set that will be filled with visited parks
+  // and a vector to save the optimal route
+  std::set<Park> visitedParks;
+  std::vector<Park> journeyTemp;
   // main do while loop that continues 
   // as long as there is another permutation
   // or possible route from starting point
   do {
+    visitedParks.clear();
+    journeyTemp.clear();
     numberOfIters++;
     // current path accumulator
     int currentPath = 0;
@@ -75,8 +81,7 @@ int Navigator::navigateDFS(Park startPark) {
     // using deque here for performance benefits
     std::deque<Park> stack; 
     stack.push_front(destinations[0]);
-    // create a set that will be filled with visited parks
-    std::set<Park> visitedParks;
+    journeyTemp.push_back(startPark);
     // compute the current path length with depth first traversal
     while (!stack.empty()) {
       // pop from the stack 
@@ -91,8 +96,9 @@ int Navigator::navigateDFS(Park startPark) {
         currentPath += map[lastPark][currentPark.key];
         // reassign last park
         lastPark = currentPark.key;
-        // add this park to visitedParks set
+        // add this park to visitedParks set and vector
         visitedParks.insert(currentPark);
+        journeyTemp.push_back(currentPark);
         // add other parks to the stack 
         for (int i = 0; i < destinations.size(); i++) {
           if (visitedParks.count(destinations[i]) != 0) {
@@ -105,9 +111,9 @@ int Navigator::navigateDFS(Park startPark) {
     }
     // check if a shorter path has been found
     if (currentPath < shortestPath) {
+      // save the distance
       shortestPath = currentPath; 
       // save the route
-      std::vector<Park> journeyTemp(visitedParks.begin(), visitedParks.end());
       journey = journeyTemp;
     }
 
@@ -117,7 +123,7 @@ int Navigator::navigateDFS(Park startPark) {
   for (int i = 0; i < journey.size() - 1; i++) {
     cout << journey[i].name << " -> ";
   }
-  cout << journey[7].name << '\n';
+  cout << journey[8].name << '\n';
 
   return shortestPath;
 }
@@ -131,8 +137,8 @@ void Navigator::startCLI() {
   string choice; 
   getline(cin, choice);
   // validate user input
-  while (stoi(choice) < 1 || stoi(choice) > 8) {
-    cout << "\nInvalid input; please enter a number between 1 and 8\n";
+  while (stoi(choice) < 1 || stoi(choice) > 9) {
+    cout << "\nInvalid input; please enter a number between 1 and 9\n";
     getline(cin, choice);
   } 
 
@@ -162,7 +168,8 @@ void printParkList() {
   cout << "\t4. Channel Island\n";
   cout << "\t5. Redwoods\n";
   cout << "\t6. Point Reyes\n";
-  cout << "\t7. Lassen\n";
-  cout << "\t8. Pinnacles\n";
+  cout << "\t7. Sequoias\n";
+  cout << "\t8. Lassen\n";
+  cout << "\t9. Pinnacles\n";
 
 }

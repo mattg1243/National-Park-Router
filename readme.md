@@ -199,11 +199,7 @@ I was very happy to find this function, as that was my biggest challenge I had e
 
 When doing projects like this, I always aim to make a cool command line interface so that people can test it out for themselves. It’s not only a fun and satisfying way to see your program in action, it also really makes you appreciate how something that looks and functions so simply can be so full of abstraction and complexity. Here’s a couple of test runs on my machine:
 
-![This is the prompt that first appears in the console when you run the program. Lets assume I want to start at Joshua Tree:] 
 ![Screen Shot 2022-05-08 at 10 35 51 PM](https://user-images.githubusercontent.com/76641882/167711093-757d9300-4434-4d1b-a224-6a6c91c5827b.png)
-
-
-
 This is the prompt that first appears in the console when you run the program. Lets assume I want to start at Joshua Tree:
 
 ![Screen Shot 2022-05-08 at 10 36 28 PM](https://user-images.githubusercontent.com/76641882/167711126-3fdb07d7-d07b-4d58-bb22-770dcb9aba0b.png)
